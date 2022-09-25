@@ -3,7 +3,7 @@ STDIX is a simple С library for Software Engineering students from [ICIX MEPHI]
 
 
 ## Quick start
-1. Download a latest stable release: [github.com/NTDV/stdix/releases](https://github.com/NTDV/stdix/releases)
+1. Download the latest stable release: [github.com/NTDV/stdix/releases](https://github.com/NTDV/stdix/releases)
 2. Copy files from archive to your working folder
 3. Include header files in your code. For example, `#inclide "stdix.h"`
 4. Compile your program with passing all `*.c` and `*.h` files to compiler.
