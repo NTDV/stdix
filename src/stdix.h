@@ -9,6 +9,7 @@
 #include <locale.h>
 #include <math.h>
 #include <stdarg.h>
+#include <limits.h>
 
 #define uint unsigned int
 #define long long long
@@ -35,6 +36,11 @@ void read_int(int* n);
 void read_uint(uint* n);
 void read_long(long *n);
 void read_ulong(ulong* n);
+
+void read_ints(int count, ...);
+void read_uints(int count, ...);
+void read_longs(int count, ...);
+void read_ulongs(int count, ...);
 
 void print_ii();
 

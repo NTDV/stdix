@@ -1,7 +1,7 @@
 //
 // Created by Danila Valkovets (dahnh33@gmail.com) on 19.09.2022.
 //
-#include "stdix.h"
+#include "stdix.h" //todo Add documentation
 
 void init_console() {
     setlocale(LC_ALL, "");
@@ -75,6 +75,7 @@ int numtype_maxlength_(const int size) {
     return numtype_maxlength_s(size, 1);
 }
 
+//todo Encapsulate read_* family to one func
 void read_int(int* n) {
     char *buffer = NULL;
     size_t size = 0;
@@ -123,7 +124,7 @@ void read_uint(uint* n) {
     char *buffer = NULL;
     size_t size = 0;
     while (1) {
-        READ_INT_ML_START:
+        READ_UINT_ML_START:
         if (size) print_ii();
         *n = 0;
         print_wi();
@@ -135,24 +136,23 @@ void read_uint(uint* n) {
                     case '5': case '6': case '7': case '8': case '9':
                         *n = buffer[i] - '0';
                         break;
-                    default: goto READ_INT_ML_START;
+                    default: goto READ_UINT_ML_START;
                 }
             } else if (*n != 0) {
-                uint new;
+                uint digit;
                 switch (buffer[i]) {
                     case '0': case '1': case '2': case '3':
                     case '4': case '5': case '6':
                     case '7': case '8': case '9':
-                        new = *n * 10 + (buffer[i] - '0');
-
-                        if (new < *n) goto READ_INT_ML_START;
-                        else *n = new;
+                        digit = (buffer[i] - '0');
+                        if (*n > UINT_MAX / 10 - digit) goto READ_UINT_ML_START;
+                        else *n = *n * 10 + (buffer[i] - '0');
                         break;
-                    case EOF: case '\r': case '\n': if (i > 1) return;
-                    default: goto READ_INT_ML_START;
+                    case EOF: case '\r': case '\n': return;
+                    default: goto READ_UINT_ML_START;
                 }
             } else if ((buffer[i] == EOF || buffer[i] == '\r' || buffer[i] == '\n') && (i > 1 || (i == 1 && *n != -1))) return;
-            else goto READ_INT_ML_START;
+            else goto READ_UINT_ML_START;
         }
     }
 }
@@ -161,7 +161,7 @@ void read_long(long *n) {
     char *buffer = NULL;
     size_t size = 0;
     while (1) {
-        READ_INT_ML_START:
+        READ_LONG_ML_START:
         if (size) print_ii();
         *n = 0;
         print_wi();
@@ -176,12 +176,12 @@ void read_long(long *n) {
                     case '5': case '6': case '7': case '8': case '9':
                         *n = buffer[i] - '0';
                         break;
-                    default: goto READ_INT_ML_START;
+                    default: goto READ_LONG_ML_START;
                 }
             } else if (*n != 0) {
                 long new;
                 switch (buffer[i]) {
-                    case '0': if (i == 1 && *n == -1) goto READ_INT_ML_START;
+                    case '0': if (i == 1 && *n == -1) goto READ_LONG_ML_START;
                     case '1': case '2': case '3':
                     case '4': case '5': case '6':
                     case '7': case '8': case '9':
@@ -189,14 +189,14 @@ void read_long(long *n) {
                         else if (*n > 0)        new = *n * 10 + (buffer[i] - '0');
                         else                    new = *n * 10 - (buffer[i] - '0');
 
-                        if (*n > 0 && new < 0 || *n < 0 && new > 0) goto READ_INT_ML_START;
+                        if (*n > 0 && new < 0 || *n < 0 && new > 0) goto READ_LONG_ML_START;
                         else *n = new;
                         break;
                     case EOF: case '\r': case '\n': if (i > 1 || (i == 1 && *n != -1)) return;
-                    default: goto READ_INT_ML_START;
+                    default: goto READ_LONG_ML_START;
                 }
             } else if ((buffer[i] == EOF || buffer[i] == '\r' || buffer[i] == '\n') && (i > 1 || (i == 1 && *n != -1))) return;
-            else goto READ_INT_ML_START;
+            else goto READ_LONG_ML_START;
         }
     }
 }
@@ -205,7 +205,7 @@ void read_ulong(ulong* n) {
     char *buffer = NULL;
     size_t size = 0;
     while (1) {
-        READ_INT_ML_START:
+        READ_ULONG_ML_START:
         if (size) print_ii();
         *n = 0;
         print_wi();
@@ -217,24 +217,51 @@ void read_ulong(ulong* n) {
                     case '5': case '6': case '7': case '8': case '9':
                         *n = buffer[i] - '0';
                         break;
-                    default: goto READ_INT_ML_START;
+                    default: goto READ_ULONG_ML_START;
                 }
             } else if (*n != 0) {
-                ulong new;
+                ulong digit;
                 switch (buffer[i]) {
                     case '0': case '1': case '2': case '3':
                     case '4': case '5': case '6':
                     case '7': case '8': case '9':
-                        new = *n * 10 + (buffer[i] - '0');
-
-                        if (new < *n) goto READ_INT_ML_START;
-                        else *n = new;
+                        digit = (buffer[i] - '0');
+                        if (*n > ULLONG_MAX / 10 - digit) goto READ_ULONG_ML_START;
+                        else *n = *n * 10 + (buffer[i] - '0');
                         break;
-                    case EOF: case '\r': case '\n': if (i > 1) return;
-                    default: goto READ_INT_ML_START;
+                    case EOF: case '\r': case '\n': return;
+                    default: goto READ_ULONG_ML_START;
                 }
             } else if ((buffer[i] == EOF || buffer[i] == '\r' || buffer[i] == '\n') && (i > 1 || (i == 1 && *n != -1))) return;
-            else goto READ_INT_ML_START;
+            else goto READ_ULONG_ML_START;
         }
     }
+}
+
+void read_ints(const int count, ...) {
+    va_list args;
+    va_start(args, count);
+    for (int i = 0; i < count; i++) read_int(va_arg(args, int*));
+    va_end(args);
+}
+
+void read_uints(const int count, ...) {
+    va_list args;
+    va_start(args, count);
+    for (int i = 0; i < count; i++) read_uint(va_arg(args, uint*));
+    va_end(args);
+}
+
+void read_longs(const int count, ...) {
+    va_list args;
+    va_start(args, count);
+    for (int i = 0; i < count; i++) read_long(va_arg(args, long*));
+    va_end(args);
+}
+
+void read_ulongs(const int count, ...) {
+    va_list args;
+    va_start(args, count);
+    for (int i = 0; i < count; i++) read_ulong(va_arg(args, ulong*));
+    va_end(args);
 }
