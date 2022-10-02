@@ -1,8 +1,6 @@
 //
 // Created by Danila Valkovets (dahnh33@gmail.com) on 19.09.2022.
 //
-#include <stdlib.h>
-#include <errno.h>
 #include "stdix.h" //todo Add documentation
 
 void init_console() {

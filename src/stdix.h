@@ -11,6 +11,7 @@
 #include <stdarg.h>
 #include <limits.h>
 #include <float.h>
+#include <stdlib.h>
 
 #define uint unsigned int
 #define long long long
