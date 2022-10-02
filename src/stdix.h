@@ -13,15 +13,19 @@
 #include <float.h>
 #include <stdlib.h>
 
+// #define not typedef because of types.h
 #define uint unsigned int
 #define long long long
 #define ulong unsigned long
+#define bool int
+#define TRUE 1
+#define FALSE 0
 
 #define STRSTR_ALL_MODE_DISTINCT    1
 #define STRSTR_ALL_MODE_EACH        0
 
-unsigned long strstr_all_mode(const char *string, const char *find, int mode);
-unsigned long strstr_all_(const char *string, const char *find);
+ulong strstr_all_mode(const char *string, const char *find, int mode);
+ulong strstr_all_(const char *string, const char *find);
 
 void vsscanf_safe_nargs(int n, const char* format, va_list args);
 void vsscanf_safe_n(int n, const char* format, ...);
@@ -32,6 +36,15 @@ int num_length_(long n);
 
 int numtype_maxlength_s(int size, int hasSign);
 int numtype_maxlength_(int size);
+
+#define TAYLOR_UNLIMITED_E 0.0
+#define TAYLOR_UNLIMITED_N 0
+
+bool greater_epsilon(double num, double e);
+double deg_to_rad(double deg);
+double taylor_sin_deg(double x, double e, ulong n);
+double taylor_sin_rad(double x, double e, ulong n);
+double taylor_exp_notxx(double x, double e, ulong n);
 
 //todo Encapsulate these to int read_{type}_b({type}* n, char* buffer, size_t size)
 void read_double(double* n);

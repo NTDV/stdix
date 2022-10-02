@@ -4,9 +4,15 @@
 #include "stdix_test.h" //todo Add test
 
 int main() {
-    init_console();
-    long a, b, c;
+    double x, e;
+    ulong n;
+    read_doubles(2, &x, &e);
+    while (e < 0) {
+        print_ii();
+        read_double(&e);
+    }
+    read_ulong(&n);
 
-    read_longs(3, &a, &b, &c);
-    printf("%lld %lld %lld", a, b, c);
+    printf("SIN\n(std) %.*f\n(own) %.*f\n", DECIMAL_DIG, sin(deg_to_rad(x)), DECIMAL_DIG, taylor_sin_deg(x, e, n));
+    printf("EXP\n(std) %.*f\n(own) %.*f\n", DECIMAL_DIG, exp(-x*x), DECIMAL_DIG, taylor_exp_notxx(x, e, n));
 }

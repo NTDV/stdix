@@ -75,6 +75,38 @@ int numtype_maxlength_(const int size) {
     return numtype_maxlength_s(size, 1);
 }
 
+bool greater_epsilon(const double num, const double e) {
+    return (num >= 0 && num > e) || (num < 0 && num < -e);
+}
+
+double deg_to_rad(const double deg) {
+    return deg / 180 * M_PI;
+}
+
+double taylor_sin_rad(const double X, const double e, const ulong n) {
+    double x = X - floor(X * M_1_PI / 2) * M_PI * 2;
+    double res = 0, term = x, xx = x * x;
+    for (ulong i = 1; greater_epsilon(term, e) && (!n || i <= n); ++i) {
+        res += term;
+        term *= (-1) * xx / ((double) ((2*i+1) * (2*i)));
+    }
+    return res;
+}
+
+double taylor_sin_deg(const double x, const double e, const ulong n) {
+    return taylor_sin_rad(deg_to_rad(x), e, n);
+}
+
+double taylor_exp_notxx(const double x, const double e, const ulong n) {
+    double res = 0, term = 1, xx = x * x;
+    for (ulong i = 1; greater_epsilon(term, e) && (!n || i <= n); ++i) {
+        res += term;
+        term *= (-1) * xx / ((double) i);
+        if (isinf(term) || isinf(res)) return 0;
+    }
+    return res;
+}
+
 //todo Encapsulate read_* family to one func
 void read_double(double* n) {
     char *buffer = NULL;
