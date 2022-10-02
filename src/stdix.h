@@ -10,6 +10,7 @@
 #include <math.h>
 #include <stdarg.h>
 #include <limits.h>
+#include <float.h>
 
 #define uint unsigned int
 #define long long long
@@ -32,11 +33,15 @@ int numtype_maxlength_s(int size, int hasSign);
 int numtype_maxlength_(int size);
 
 //todo Encapsulate these to int read_{type}_b({type}* n, char* buffer, size_t size)
+void read_double(double* n);
+void read_float(float* n);
 void read_int(int* n);
 void read_uint(uint* n);
 void read_long(long *n);
 void read_ulong(ulong* n);
 
+void read_doubles(int count, ...);
+void read_floats(int count, ...);
 void read_ints(int count, ...);
 void read_uints(int count, ...);
 void read_longs(int count, ...);
