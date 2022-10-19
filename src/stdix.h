@@ -37,6 +37,10 @@ int num_length_(long n);
 int numtype_maxlength_s(int size, int hasSign);
 int numtype_maxlength_(int size);
 
+bool is_integer(double n);
+bool is_even(double n);
+bool is_odd(double n);
+
 #define TAYLOR_UNLIMITED_E 0.0
 #define TAYLOR_UNLIMITED_N 0
 
@@ -45,6 +49,8 @@ double deg_to_rad(double deg);
 double taylor_sin_deg(double x, double e, ulong n);
 double taylor_sin_rad(double x, double e, ulong n);
 double taylor_exp_notxx(double x, double e, ulong n);
+
+double iteration_nthroot(double y0, double a, uint n, double epsilon, ulong steps, ulong* N);
 
 //todo Encapsulate these to int read_{type}_b({type}* n, char* buffer, size_t size)
 void read_double(double* n);

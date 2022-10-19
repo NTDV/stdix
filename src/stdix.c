@@ -79,6 +79,18 @@ bool greater_epsilon(const double num, const double e) {
     return (num >= 0 && num > e) || (num < 0 && num < -e);
 }
 
+inline bool is_integer(const double n) {
+    return ceil(n) == n;
+}
+
+inline bool is_even(const double n) {
+    return ceil(n) == n && !((long) n % 2);
+}
+
+inline bool is_odd(const double n) {
+    return ceil(n) == n && ((long) n % 2);
+}
+
 double deg_to_rad(const double deg) {
     return deg / 180 * M_PI;
 }
@@ -97,6 +109,7 @@ double taylor_sin_deg(const double x, const double e, const ulong n) {
     return taylor_sin_rad(deg_to_rad(x), e, n);
 }
 
+// e^(-x*x)
 double taylor_exp_notxx(const double x, const double e, const ulong n) {
     double res = 0, term = 1, xx = x * x;
     for (ulong i = 1; greater_epsilon(term, e) && (!n || i <= n); ++i) {
@@ -105,6 +118,35 @@ double taylor_exp_notxx(const double x, const double e, const ulong n) {
         if (isinf(term) || isinf(res)) return 0;
     }
     return res;
+}
+
+// y=n√a
+double iteration_nthroot(const double y0, const double a, const uint n, const double epsilon, const ulong steps, ulong* N) {
+    if (y0 == 0 || a < 0 && !(n % 2) || y0 >= a) return NAN;
+    if (a == 0.0 || a == 1 || a == -1 || n == 1) return a;
+
+    double res_new,
+    y = y0,
+    factor = 1.0,
+    $1nn = 1.0 / (n * n),
+    factor1 = n + 1.0,
+    factor2 = n - 1.0,
+    term1 = factor1 * factor2,
+    term2 = 0.5 * a * factor1,
+    term3 = 0.5 / a * factor2;
+    ulong i = 1;
+
+    for (; !steps || i <= steps; ++i) {
+        res_new = y * factor;
+        if (epsilon != 0.0 && i>1 && !greater_epsilon(res_new - y, epsilon) || isinf(res_new) || isnan(res_new)) break;
+
+        y = res_new;
+        double factor3 = pow(y, n);
+        factor = (term1 + term2 / factor3 - term3 * factor3) * $1nn;
+    }
+
+    if (N != NULL) *N = i;
+    return y;
 }
 
 //todo Encapsulate read_* family to one func
