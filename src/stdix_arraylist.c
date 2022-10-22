@@ -66,6 +66,8 @@ STATUS arraylist_insert_at(arraylist* list, const size_t index, int value) {
         if ((state = arraylist_ensure_capacity(list, list->size + 1)) != OK) return state;
         arraylist_shift(list->array + index, 1, list->size - index);
         ++(list->size);
+    } else {
+        state = OK;
     }
     list->array[index] = value;
     return state;
