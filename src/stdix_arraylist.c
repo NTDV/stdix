@@ -8,7 +8,7 @@ arraylist* arraylist_init() {
 }
 
 arraylist* arraylist_init_manual(const float rate, const size_t capacity) {
-    if (rate <= 1 || capacity == 0) return NULL;
+    if (rate < 1.5 || capacity < 2) return NULL;
 
     arraylist* list = malloc(sizeof *list);
     list->growth_rate = rate;
@@ -32,11 +32,11 @@ inline int* arraylist_get_array(arraylist* list) {
     return list->array;
 }
 
-STATUS arraylist_ensure_capacity(arraylist* list, const size_t new_size) {
-    if (new_size < list->capacity) return OK;
+STATUS arraylist_ensure_capacity(arraylist* list, size_t new_size) {
     size_t capacity = list->capacity;
-    while (capacity < new_size) capacity = (size_t) ((float) capacity * list->growth_rate);
-    list->array = realloc(list->array, list->capacity * sizeof *(list->array));
+    if (new_size < capacity) return OK;
+    while (capacity <= new_size) capacity = (size_t) ((float) capacity * list->growth_rate);
+    list->array = realloc(list->array, capacity * sizeof *(list->array));
     if(list->array == NULL) return ALLOCATION_ERROR;
     list->capacity = capacity;
     return OK;
@@ -59,10 +59,16 @@ STATUS arraylist_shift(int* array, const size_t offset, const size_t length) {
 STATUS arraylist_insert_at(arraylist* list, const size_t index, int value) {
     if (list->size == SIZE_MAX) return VARIABLE_OVERFLOW;
     STATUS state;
-    if ((state = arraylist_ensure_capacity(list, list->size + 1)) != OK) return state;
-    arraylist_shift(list->array + index, 1, list->size - index);
+    if (index >= list->size) {
+        if ((state = arraylist_ensure_capacity(list, index + 1)) != OK) return state;
+        list->size = index + 1;
+    } else if (list->array[index] != 0) {
+        if ((state = arraylist_ensure_capacity(list, list->size + 1)) != OK) return state;
+        arraylist_shift(list->array + index, 1, list->size - index);
+        ++(list->size);
+    }
     list->array[index] = value;
-    list->size++;
+    return state;
 }
 
 STATUS arraylist_remove_at(arraylist* list, const size_t index) {

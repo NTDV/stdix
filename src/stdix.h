@@ -13,10 +13,14 @@
 #include <float.h>
 #include <stdlib.h>
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 // #define not typedef because of types.h
 #define uint unsigned int
 //#define long long long
 #define ulong unsigned long
+
 #define bool int
 #define TRUE 1
 #define FALSE 0
