@@ -15,7 +15,7 @@
 
 // #define not typedef because of types.h
 #define uint unsigned int
-#define long long long
+//#define long long long
 #define ulong unsigned long
 #define bool int
 #define TRUE 1
@@ -23,6 +23,16 @@
 
 #define STRSTR_ALL_MODE_DISTINCT    1
 #define STRSTR_ALL_MODE_EACH        0
+
+typedef enum {
+    OK = 0,
+    ALLOCATION_ERROR = -1,
+    INVALID_ARGUMENT = -2,
+    MEMORY_MOVE_ERROR = -3,
+    NOT_ENOUGH_MEMORY = -4,
+    VARIABLE_OVERFLOW = -5,
+    OPERATION_NOT_ALLOWED = -6,
+} STATUS;
 
 ulong strstr_all_mode(const char *string, const char *find, int mode);
 ulong strstr_all_(const char *string, const char *find);

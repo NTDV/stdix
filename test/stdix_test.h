@@ -5,5 +5,8 @@
 #define STDIX_TEST_H
 
 #include "../src/stdix.h"
+#include "../src/stdix_linkedtreeset.h"
+#include "../src/stdix_linkedtree.h"
+#include "../src/stdix_arraylist.h"
 
 #endif //STDIX_TEST_H
