@@ -170,6 +170,8 @@ void linkedtree_node_free(linkedtree_node* node) {
 }
 
 void linkedtree_free(linkedtree* tree) {
-    linkedtree_foreach_inverse(tree, (void (*)(void *)) (&linkedtree_node_free));
-    free(tree);
+    if (tree != NULL) {
+        linkedtree_foreach_inverse(tree, (void (*)(void *)) (&linkedtree_node_free));
+        free(tree);
+    }
 }

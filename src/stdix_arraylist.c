@@ -98,6 +98,8 @@ void arraylist_clear(arraylist* list) {
 }
 
 void arraylist_free(arraylist* list) {
-    free(list->array);
-    free(list);
+    if (list != NULL) {
+        free(list->array);
+        free(list);
+    }
 }

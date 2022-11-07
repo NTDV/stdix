@@ -82,6 +82,8 @@ void linkedtreeset_foreach(linkedtreeset* set, void (*fun)(void*)) {
 }
 
 void linkedtreeset_free(linkedtreeset* set) {
-    linkedtree_free(set->tree);
-    free(set);
+    if (set != NULL) {
+        linkedtree_free(set->tree);
+        free(set);
+    }
 }
