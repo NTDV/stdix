@@ -42,7 +42,10 @@ void linkedtreeset_linkedtree_add(linkedtree* tree, void* value) {
     linkedtree_node* node = linkedtree_node_init(value);
     linkedtree_node* new_root =
             linkedtreeset_linkedtree_node_insert_children(tree->root, node);
-    if (new_root == NULL) return;
+    if (new_root == NULL) {
+        free(node);
+        return;
+    }
 
     if (tree->first == NULL) tree->last = (tree->first = node);
     else tree->last = (tree->last->next = node);
@@ -76,4 +79,9 @@ void linkedtreeset_add(linkedtreeset* set, void* value) {
 
 void linkedtreeset_foreach(linkedtreeset* set, void (*fun)(void*)) {
     linkedtree_foreach(set->tree, fun);
+}
+
+void linkedtreeset_free(linkedtreeset* set) {
+    linkedtree_free(set->tree);
+    free(set);
 }

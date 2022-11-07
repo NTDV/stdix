@@ -18,5 +18,6 @@ linkedtreeset* linkedtreeset_init_from(void* array, size_t size);
 void linkedtreeset_add(linkedtreeset* set, void* value);
 void linkedtreeset_foreach(linkedtreeset* set, void (*fun)(void*));
 int* linkedtreeset_to_array(linkedtreeset* set);
+void linkedtreeset_free(linkedtreeset* set);
 
 #endif //STDIX_LINKEDTREESET_H

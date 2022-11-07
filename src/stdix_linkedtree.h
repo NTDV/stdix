@@ -29,6 +29,7 @@ linkedtree_node* linkedtree_node_init(void* value);
 linkedtree_node* linkedtree_node_insert_children(linkedtree_node* node, linkedtree_node* children);
 void linkedtree_node_inorder(linkedtree_node* node, void (*fun)(void*));
 void linkedtree_node_foreach(linkedtree_node* node, void (*fun)(void*));
+void linkedtree_node_free(linkedtree_node* node);
 
 typedef struct {
     linkedtree_node* root;
@@ -46,5 +47,6 @@ void linkedtree_rotate_left(linkedtree* tree, linkedtree_node* node);
 void linkedtree_rebalance_at(linkedtree* tree, linkedtree_node* node);
 void linkedtree_inorder(linkedtree* tree, void (*fun)(void*));
 void linkedtree_foreach(linkedtree* tree, void (*fun)(void*));
+void linkedtree_free(linkedtree* tree);
 
 #endif //STDIX_LINKEDTREE_H

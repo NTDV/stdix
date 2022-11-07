@@ -155,3 +155,21 @@ void linkedtree_node_foreach(linkedtree_node* node, void (*fun)(void*)) {
     fun(node->value);
     if (node->next != NULL) linkedtree_node_foreach(node->next, fun);
 }
+
+void linkedtree_node_foreach_inverse(linkedtree_node* node, void (*fun)(void*)) {
+    if (node->next != NULL) linkedtree_node_foreach_inverse(node->next, fun);
+    fun(node);
+}
+
+void linkedtree_foreach_inverse(linkedtree* tree, void (*fun)(void*)) {
+    if (tree->first != NULL) linkedtree_node_foreach_inverse(tree->first, fun);
+}
+
+void linkedtree_node_free(linkedtree_node* node) {
+    free(node);
+}
+
+void linkedtree_free(linkedtree* tree) {
+    linkedtree_foreach_inverse(tree, (void (*)(void *)) (&linkedtree_node_free));
+    free(tree);
+}

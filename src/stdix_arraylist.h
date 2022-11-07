@@ -27,6 +27,7 @@ STATUS arraylist_add(arraylist* list, int value);
 STATUS arraylist_insert_at(arraylist* list, size_t index, int value);
 STATUS arraylist_remove_at(arraylist* list, size_t index);
 STATUS arraylist_remove_duplicates(arraylist* list);
+void arraylist_free(arraylist* list);
 
 
 #endif //STDIX_ARRAYLIST_H
