@@ -85,6 +85,13 @@ void print_ii();
 
 void init_console();
 
+#ifdef _WIN32
+#include <conio.h>
+#else
+#define clrscr() printf("\e[1;1H\e[2J")
+#endif
+void clear_console();
+
 //todo Implement 'generics' aka polymorphism\overloading
 
 #endif //STDIX_H

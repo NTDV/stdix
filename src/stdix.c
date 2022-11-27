@@ -4,7 +4,14 @@
 #include "stdix.h" //todo Add documentation
 
 void init_console() {
+    setvbuf(stdout, NULL, _IONBF, 0);
     setlocale(LC_ALL, "");
+}
+
+void clear_console() {
+    //printf ("\033[0d\033[2J");
+    //system("clear");
+    clrscr();
 }
 
 void print_ii() {
@@ -177,6 +184,7 @@ void read_double(double* n) {
             } else if ((buffer[i] == EOF || buffer[i] == '\r' || buffer[i] == '\n')) {
                 if (buffer[i-1] == '.') goto READ_DOUBLE_ML_START;
                 *n *= sign;
+                free(buffer);
                 return;
             } else if (buffer[0] == '0' && buffer[1] != '.') {
                 goto READ_DOUBLE_ML_START;
@@ -198,6 +206,7 @@ void read_double(double* n) {
                         break;
                     case EOF: case '\r': case '\n': if (i > 1 || (i == 1 && sign != -1)) {
                         *n *= sign;
+                        free(buffer);
                         return;
                     }
                     default: goto READ_DOUBLE_ML_START;
@@ -417,11 +426,15 @@ void read_ulong(ulong* n) {
                         if (*n > ULLONG_MAX / 10 - digit) goto READ_ULONG_ML_START;
                         else *n = *n * 10 + (buffer[i] - '0');
                         break;
-                    case EOF: case '\r': case '\n': return;
+                    case EOF: case '\r': case '\n':
+                        free(buffer);
+                        return;
                     default: goto READ_ULONG_ML_START;
                 }
-            } else if ((buffer[i] == EOF || buffer[i] == '\r' || buffer[i] == '\n') && (i > 1 || (i == 1 && *n != -1))) return;
-            else goto READ_ULONG_ML_START;
+            } else if ((buffer[i] == EOF || buffer[i] == '\r' || buffer[i] == '\n') && (i > 1 || (i == 1 && *n != -1))) {
+                free(buffer);
+                return;
+            } else goto READ_ULONG_ML_START;
         }
     }
 }
