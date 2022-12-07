@@ -36,6 +36,7 @@ typedef enum {
     NOT_ENOUGH_MEMORY = -4,
     VARIABLE_OVERFLOW = -5,
     OPERATION_NOT_ALLOWED = -6,
+    INDEX_OUT_OF_ARRAY = -7,
 } STATUS;
 
 ulong strstr_all_mode(const char *string, const char *find, int mode);
@@ -80,6 +81,11 @@ void read_ints(int count, ...);
 void read_uints(int count, ...);
 void read_longs(int count, ...);
 void read_ulongs(int count, ...);
+
+size_t ix_strlen(const char* string);
+void ix_strcat(char* dest, const char* src);
+void reverse_char_sequence(char* start, char* end);
+void string_spliterator(char* string, size_t length, bool (*delimiter)(char), void (*fun)(char*,char*));
 
 void print_ii();
 

@@ -8,16 +8,17 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "stdix.h"
+#include "stdix_string.h"
 
 typedef struct {
-    double* array;
+    void** array;
     size_t size;
 } dynamicarray;
 
 dynamicarray* dynamicarray_init();
 dynamicarray* dynamicarray_init_manual(size_t initial_capacity);
-dynamicarray* dynamicarray_init_from(const double* array, size_t size);
-STATUS dynamicarray_insert_at(dynamicarray* array, size_t index, double value);
+dynamicarray* dynamicarray_init_from(void** array, size_t size);
+STATUS dynamicarray_insert_at(dynamicarray* array, size_t index, void* value);
 STATUS dynamicarray_remove_at(dynamicarray* array, size_t index);
 void dynamicarray_free(dynamicarray* array);
 

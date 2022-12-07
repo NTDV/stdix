@@ -4,25 +4,12 @@
 #include "stdix_dynamicarray.h"
 
 dynamicarray* dynamicarray_init() {
-    return dynamicarray_init_manual(0);
-}
-
-dynamicarray* dynamicarray_init_manual(size_t initial_capacity) {
-    if (initial_capacity == 0) return NULL;
-
     dynamicarray* array = malloc(sizeof *array);
-    array->size = initial_capacity;
+    array->size = 0;
     array->array = malloc(array->size * sizeof *(array->array));
 
     if (array->array == NULL) return NULL;
     return array;
-}
-
-dynamicarray* dynamicarray_init_from(const double* array, size_t size) {
-    dynamicarray* dynamicarray = dynamicarray_init_manual(size);
-    for (size_t i = 0; i < size; ++i) dynamicarray->array[i] = array[i];
-    dynamicarray->size = size;
-    return dynamicarray;
 }
 
 STATUS dynamicarray_ensure_capacity(dynamicarray* array, size_t new_size) {
@@ -32,14 +19,14 @@ STATUS dynamicarray_ensure_capacity(dynamicarray* array, size_t new_size) {
     return OK;
 }
 
-STATUS dynamicarray_shift(double* array, const size_t offset, const size_t length) {
+STATUS dynamicarray_shift(void** array, const size_t offset, const size_t length) {
     memmove(array + offset,  array, length * sizeof *array);
     if (array != NULL) return OK;
     else return MEMORY_MOVE_ERROR;
 }
 
 
-STATUS dynamicarray_insert_at(dynamicarray* array, size_t index, double value) {
+STATUS dynamicarray_insert_at(dynamicarray* array, size_t index, void* value) {
     if (array->size == SIZE_MAX) return VARIABLE_OVERFLOW;
     STATUS state;
     if (index >= array->size) {

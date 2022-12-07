@@ -480,3 +480,34 @@ void read_ulongs(const int count, ...) {
     for (int i = 0; i < count; i++) read_ulong(va_arg(args, ulong*));
     va_end(args);
 }
+
+size_t ix_strlen(const char* string) {
+    const char *ptr;
+    for (ptr = string; *ptr != '\0'; ++ptr);
+    return (ptr - string);
+}
+
+void ix_strcat(char* dest, const char* src) {
+    size_t destLength = ix_strlen(dest);
+    dest += destLength;
+    while (*src != '\0') *(dest++) = *(src++);
+    *dest = '\0';
+}
+
+void reverse_char_sequence(char* start, char* end) {
+    while (start < end) {
+        char temp = *start;
+        *(start++) = *end;
+        *(end--) = temp;
+    }
+}
+
+void string_spliterator(char* string, size_t length, bool (*delimiter)(char), void (*fun)(char*,char*)) {
+    size_t previ = 0;
+    for (size_t i = 0; i <= length; ++i) {
+        if (delimiter(string[i])) {
+            fun(string + previ, string + i - 1);
+            previ = i + 1;
+        }
+    }
+}
