@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
                     student->fullName = token;
                     break;
                 case 2:
-                    if (strlen(token) == groupLength + 1)
+                    if (strlen(token) == groupLength)
                         for (size_t i = 0; i < groupLength; ++i)
                             student->group[i] = token[i];
                     else goto ARGS_ERROR;
@@ -144,7 +144,7 @@ int main(int argc, char **argv) {
     if (output == NULL) goto ARGS_ERROR;
     for (size_t i = 0; i < array->size; ++i) {
         STUDENT* student = array->array[i];
-        fprintf(output, "%s;%.*s;%f\n", student->fullName, (int)(sizeof(student->group) / sizeof(student->group[0])), student->group, student->averageMark);
+        fprintf(output, "%s;%.*s;%.1f\n", student->fullName, (int)(sizeof(student->group) / sizeof(student->group[0])), student->group, student->averageMark);
         free(student->fullName);
         free(student);
     }

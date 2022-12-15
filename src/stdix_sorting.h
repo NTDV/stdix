@@ -10,7 +10,7 @@
 
 typedef struct {
     string fullName;
-    char group[7];
+    char group[8];
     float averageMark;
 } STUDENT; // REMOVE THE STRUCT FROM CODE -> use pointer arithmetic istead
 
