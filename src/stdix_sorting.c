@@ -15,14 +15,14 @@ void dynamicarray_sort(dynamicarray* array, SORTER algorithm, COMPARATOR compara
     algorithm(array->array, array->size, sizeof *(array->array), comparator);
 }
 
-size_t place_pivot(void *base, size_t low, size_t high, size_t size, COMPARATOR comparator) {
-    STUDENT** array = (STUDENT **) base;
+size_t place_pivot(void* base, size_t low, size_t high, size_t size, COMPARATOR comparator) {
     size_t pivot = low;
     size_t switch_i = low + 1;
+    char* array_ptr = (char *) base;
     for (size_t i = switch_i; i <= high; ++i) {
-        if (comparator(&array[i], &array[pivot]) < 0) {
-            swap(&array[i], &array[switch_i], size);
-            swap(&array[pivot], &array[switch_i], size);
+        if (comparator(array_ptr + i * size, array_ptr + pivot * size) < 0) {
+            swap(array_ptr + i * size, array_ptr + switch_i * size, size);
+            swap(array_ptr + pivot * size, array_ptr + switch_i * size, size);
             ++pivot;
             ++switch_i;
         }
@@ -66,40 +66,40 @@ void ix_pairinsertion_sort(void* base, size_t length, size_t size, COMPARATOR co
     a[right + 1] = last;
 
     /*
-    STUDENT* pin = a[right];
+    STUDENT* pin = array[right];
     for (size_t i, p = right; ++left < right;) {
-        STUDENT* ai = a[i = left];
+        STUDENT* ai = array[i = left];
 
-        if (comparator(&ai, &a[i - 1]) < 0) {
-            a[i] = a[--i];
-            while (comparator(&ai, &a[--i]) < 0) a[i + 1] = a[i];
-            a[i + 1] = ai;
+        if (comparator(&ai, &array[i - 1]) < 0) {
+            array[i] = array[--i];
+            while (comparator(&ai, &array[--i]) < 0) array[i + 1] = array[i];
+            array[i + 1] = ai;
         } else if (p > i && ai > pin) {
-            while (comparator(&a[--p], &pin) > 0);
+            while (comparator(&array[--p], &pin) > 0);
             if (p > i) {
-                ai = a[p];
-                a[p] = a[i];
+                ai = array[p];
+                array[p] = array[i];
             }
 
-            while (comparator(&ai, &a[--i]) < 0) a[i + 1] = a[i];
-            a[i + 1] = ai;
+            while (comparator(&ai, &array[--i]) < 0) array[i + 1] = array[i];
+            array[i + 1] = ai;
         }
     }
 
     for (size_t i; left < right; ++left) {
-        STUDENT* a1 = a[i = left];
-        STUDENT* a2 = a[++left];
+        STUDENT* a1 = array[i = left];
+        STUDENT* a2 = array[++left];
 
         if (comparator(&a1, &a2) > 0) {
-            while (comparator(&a1, &a[--i]) < 0) a[i + 2] = a[i];
-            a[++i + 1] = a1;
-            while (comparator(&a2, &a[--i]) < 0) a[i + 1] = a[i];
-            a[i + 1] = a2;
-        } else if (comparator(&a1, &a[i - 1]) < 0) {
-            while (comparator(&a2, &a[--i]) < 0) a[i + 2] = a[i];
-            a[++i + 1] = a2;
-            while (comparator(&a1, &a[--i]) < 0) a[i + 1] = a[i];
-            a[i + 1] = a1;
+            while (comparator(&a1, &array[--i]) < 0) array[i + 2] = array[i];
+            array[++i + 1] = a1;
+            while (comparator(&a2, &array[--i]) < 0) array[i + 1] = array[i];
+            array[i + 1] = a2;
+        } else if (comparator(&a1, &array[i - 1]) < 0) {
+            while (comparator(&a2, &array[--i]) < 0) array[i + 2] = array[i];
+            array[++i + 1] = a2;
+            while (comparator(&a1, &array[--i]) < 0) array[i + 1] = array[i];
+            array[i + 1] = a1;
         }
     }
      */
