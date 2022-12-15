@@ -14,7 +14,8 @@ add_library(STDIX
         src/stdix_linkedtree.h src/stdix_linkedtree.c
         src/stdix_linkedtreeset.h src/stdix_linkedtreeset.c
         src/stdix_dynamicarray.h src/stdix_dynamicarray.c
-        src/stdix_string.h src/stdix_string.c)
+        src/stdix_string.h src/stdix_string.c
+        src/stdix_sorting.h src/stdix_sorting.c)
 add_test(STDIX
         test/stdix_test.h test/stdix_test.c)
 target_link_libraries(STDIX PRIVATE m)
@@ -26,5 +27,6 @@ add_executable(STDIX_test
         src/stdix_linkedtree.h src/stdix_linkedtree.c
         src/stdix_linkedtreeset.h src/stdix_linkedtreeset.c
         src/stdix_dynamicarray.h src/stdix_dynamicarray.c
-        src/stdix_string.h src/stdix_string.c)
+        src/stdix_string.h src/stdix_string.c
+        src/stdix_sorting.h src/stdix_sorting.c)
 target_link_libraries(STDIX_test PRIVATE m readline)

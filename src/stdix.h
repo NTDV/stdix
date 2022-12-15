@@ -16,6 +16,8 @@
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
+#define NORMILIZE_CHAR_FOR_INDEXING(C) (int)((int) C - (int) '0')
+
 // #define not typedef because of types.h
 #define uint unsigned int
 //#define long long long
@@ -93,6 +95,9 @@ void init_console();
 
 #ifdef _WIN32
 #include <conio.h>
+#include <io.h>
+#define F_OK 0
+#define access _access
 #else
 #define clrscr() printf("\e[1;1H\e[2J")
 #endif

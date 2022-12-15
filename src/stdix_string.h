@@ -14,12 +14,15 @@
 #include <stdint.h>
 #include "stdix.h"
 
+typedef char* string;
+
 typedef struct {
-    char* chars;
+    string chars;
     size_t length;
 } ix_string;
 
 ix_string* ix_string_readline();
+ix_string* ix_string_readline_stream(FILE* stream);
 void ix_reverse(ix_string* string);
 void ix_string_spliterator(ix_string* string, bool (*delimiter)(char), void (*fun)(char*,char*));
 void ix_string_free(ix_string* string);

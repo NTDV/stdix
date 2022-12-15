@@ -112,6 +112,43 @@ ix_string* ix_string_readline() {
     return string;
 }
 
+ix_string* ix_string_readline_stream(FILE* stream) {
+    char* buffer = malloc((READLINE_BUFFER + 1) * sizeof *buffer);
+    char* chars = NULL;
+    size_t length = 0;
+    int scanned;
+
+    do {
+        scanned = fscanf(stream, "%" __PRIVATE_STR_VALUE(READLINE_BUFFER) "[^\n]", buffer);
+        if (scanned > 0) {
+            length += ix_strlen(buffer);
+            if (chars == NULL) {
+                chars = realloc(chars, length + 1);
+                memcpy(chars, buffer, (length + 1) * sizeof *buffer);
+            } else {
+                chars = realloc(chars, length + 1);
+                ix_strcat(chars, buffer);
+            }
+        } else if (scanned < 0) {
+            free(chars);
+            chars = NULL;
+            continue;
+        } else fscanf(stream, "%*c");
+    } while(scanned > 0);
+
+    ix_string* string;
+    if (length > 0 || (length == 0 && scanned != -1)) {
+        string = malloc(sizeof *string);
+        string->length = length;
+        if(chars == NULL) chars = malloc(sizeof *chars);
+        string->chars = chars;
+        string->chars[length] = '\0';
+    } else string = NULL;
+
+    free(buffer);
+    return string;
+}
+
 void ix_reverse(ix_string* string) {
     for (size_t i = 0; i < string->length / 2; ++i) {
         char temp = string->chars[i];
